@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+// Colors
+$dark-blue: rgba(3, 37, 65, 1);
+
+// Width
+$width-destop: '1400px';
+
+:root {
+    --dark-blue: #{$dark-blue};
+    --width-destop: #{$width-destop};
+}
