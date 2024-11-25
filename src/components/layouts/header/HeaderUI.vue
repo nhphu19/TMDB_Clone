@@ -1,7 +1,7 @@
 <template>
     <div class="">
         <div class="w-full bg-darkBlue flex justify-center">
-            <div class="w-destop px-10 py-4 flex items-center justify-between">
+            <div class="w-full max-w-page px-10 py-4 flex items-center justify-between">
                 <div class="flex items-center">
                     <a-image :height="20" :src="logo" />
 

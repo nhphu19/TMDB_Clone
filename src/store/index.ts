@@ -1,9 +1,8 @@
 import { createStore } from 'vuex';
+import movieVibes from './modules/movie-vibe';
 
 export default createStore({
-    state: {},
-    getters: {},
-    mutations: {},
-    actions: {},
-    modules: {},
+    modules: {
+        movieVibes,
+    },
 });

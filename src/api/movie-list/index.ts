@@ -1,5 +1,5 @@
 // services/userService.ts
-import { apiGet, apiPost } from '../index';
+import { apiGet } from '../index';
 
 export interface MovieItem {
     adult: boolean;

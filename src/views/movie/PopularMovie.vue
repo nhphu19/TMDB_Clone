@@ -1,10 +1,10 @@
 <template>
     <PageLayout>
         <div class="w-full flex justify-center">
-            <div class="w-destop px-10 py-4">
+            <div class="w-full max-w-page px-10 py-4">
                 <div class="text-[#000] text-[24px] font-[600] text-left py-4">Popular Movies</div>
 
-                <div class="flex gap-6">
+                <div class="flex gap-[30px]">
                     <div class="flex flex-col">
                         <div class="w-[260px] border border-solid border-[#e3e3e3] rounded-[8px] shadow-cardMovie">
                             <div
@@ -45,17 +45,17 @@
                     </div>
 
                     <div class="flex-1">
-                        <div class="flex flex-wrap gap-6">
+                        <div class="flex flex-wrap justify-between">
                             <div
-                                class="relative flex flex-col text-start w-[180px] shadow-cardMovie border border-solid border-[#e3e3e3] rounded-[8px] overflow-hidden"
+                                class="discover-card relative flex flex-col text-start shadow-cardMovie border border-solid border-[#e3e3e3] rounded-[8px] overflow-hidden"
                                 v-for="movie in movies"
                                 :key="movie.id"
                             >
                                 <a-image
                                     class="cursor-pointer"
-                                    :width="180"
                                     :src="BASE_URL_IMAGE + movie.poster_path"
                                     :preview="false"
+                                    @click="gotoDetail(movie)"
                                 />
                                 <div class="relative px-3 pt-6 pb-4">
                                     <div
@@ -63,10 +63,10 @@
                                     >
                                         <a-progress
                                             type="circle"
-                                            :percent="percentMovie(movie).percent"
+                                            :percent="percentMovie(movie.vote_average).percent"
                                             :size="32"
-                                            :strokeColor="percentMovie(movie).strokeColor"
-                                            :trailColor="percentMovie(movie).trailColor"
+                                            :strokeColor="percentMovie(movie.vote_average).strokeColor"
+                                            :trailColor="percentMovie(movie.vote_average).trailColor"
                                             :strokeWidth="10"
                                         >
                                             <template #format="percent">
@@ -80,6 +80,7 @@
 
                                     <div
                                         class="text-[#000] text-[16px] font-[700] line-clamp-2 cursor-pointer hover:text-[#01b3e4]"
+                                        @click="gotoDetail(movie)"
                                     >
                                         {{ movie.title }}
                                     </div>
@@ -90,9 +91,7 @@
                             </div>
                         </div>
 
-                        <div
-                            class="py-3 mt-6 mb-3 bg-[#01b3e4] text-[#fff] rounded-[8px] hover:text-[#333] cursor-pointer"
-                        >
+                        <div class="py-3 my-3 bg-[#01b3e4] text-[#fff] rounded-[8px] hover:text-[#333] cursor-pointer">
                             <div class="text-[24px] font-[600]">Load More</div>
                         </div>
                     </div>
@@ -104,10 +103,13 @@
 
 <script lang="ts" setup>
 import { onMounted, ref } from 'vue';
+import { useRouter } from 'vue-router';
 import { MovieItem, getPopularMovies } from '@/api/movie-list';
 import { BASE_URL_IMAGE } from '@/configs/constants';
 import { CaretRightOutlined, CaretDownOutlined } from '@ant-design/icons-vue';
+import { percentMovie, formatDate, formatTitle } from '@/utils/common';
 
+const router = useRouter();
 const movies = ref<MovieItem[]>([]);
 const isShowSort = ref(false);
 const sortItemID = ref(0);
@@ -147,30 +149,17 @@ onMounted(async () => {
     }
 });
 
-const percentMovie = (movie: MovieItem) => {
-    const percent = Math.round(movie.vote_average * 10);
-
-    if (percent >= 70) {
-        return {
-            percent: percent,
-            strokeColor: '#21d07a',
-            trailColor: '#204529',
-        };
-    }
-
-    return {
-        percent: percent,
-        strokeColor: '#d2d531',
-        trailColor: '#423d0f',
-    };
-};
-
-const formatDate = (dateStr: string) => {
-    const date: Date = new Date(dateStr);
-    return date.toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'short',
-        day: '2-digit',
-    });
+const gotoDetail = (movie: MovieItem) => {
+    router.push(`/movie/${movie.id}-${formatTitle(movie.title)}`);
 };
 </script>
+
+<style scoped lang="scss">
+.discover-card {
+    width: calc((100vw - 80px - 260px - var(--number-column-discover) * 30px) / var(--number-column-discover));
+    max-width: calc(
+        (var(--max-width-page) - 80px - 260px - var(--number-column-discover) * 30px) / var(--number-column-discover)
+    );
+    margin-bottom: 30px;
+}
+</style>

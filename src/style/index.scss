@@ -4,11 +4,38 @@
 
 // Colors
 $dark-blue: rgba(3, 37, 65, 1);
-
 // Width
-$width-destop: '1400px';
+$max-width-page: '1400px';
+// Radius
+$radius-image: '8px';
 
 :root {
     --dark-blue: #{$dark-blue};
-    --width-destop: #{$width-destop};
+    --max-width-page: #{$max-width-page};
+    --radius-image: #{$radius-image};
+    --number-column-discover: 5;
+}
+
+@media (max-width: 1240px) {
+    :root {
+        --number-column-discover: 4;
+    }
+}
+
+@media (max-width: 1040px) {
+    :root {
+        --number-column-discover: 3;
+    }
+}
+
+@media (max-width: 900px) {
+    :root {
+        --number-column-discover: 2;
+    }
+}
+
+@media (max-width: 700px) {
+    :root {
+        --number-column-discover: 1;
+    }
 }
