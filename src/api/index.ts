@@ -1,5 +1,5 @@
-const BASE_URL = process.env.VUE_APP_API_BASE_URL;
-const API_KEY = process.env.VUE_APP_API_KEY;
+const BASE_URL = import.meta.env.VITE_BASE_URL;
+const API_KEY = import.meta.env.VITE_API_KEY;
 
 interface RequestOptions extends RequestInit {
     body?: string;
