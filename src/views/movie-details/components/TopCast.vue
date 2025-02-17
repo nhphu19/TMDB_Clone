@@ -21,11 +21,15 @@
                             :height="175"
                             :src="BASE_URL_IMAGE + cast.profile_path"
                             :preview="false"
+                            @click="gotoDetail(cast)"
                         />
                     </div>
 
                     <div class="px-2 pt-3 pb-3">
-                        <div class="text-[#000] text-[16px] font-[700] line-clamp-2 cursor-pointer hover:opacity-60">
+                        <div
+                            class="text-[#000] text-[16px] font-[700] line-clamp-2 cursor-pointer hover:opacity-60"
+                            @click="gotoDetail(cast)"
+                        >
                             {{ cast.name }}
                         </div>
                         <div class="text-[#333] text-[14px] font-[400] line-clamp-2 mt-2">
@@ -49,10 +53,13 @@
 
 <script lang="ts" setup>
 import { computed, PropType, ref, defineProps } from 'vue';
+import { useRouter } from 'vue-router';
 import { MovieCredit } from '@/api/movie-detail';
 import { ArrowRightOutlined } from '@ant-design/icons-vue';
 import { BASE_URL_IMAGE } from '@/configs/constants';
+import { formatTitle } from '@/utils/common';
 
+const router = useRouter();
 const props = defineProps({
     movieCasts: {
         type: Object as PropType<MovieCredit[]>,
@@ -68,5 +75,9 @@ const handleScroll = () => {
         const scrollLeft = castCardList.value.scrollLeft;
         afterOpacity.value = scrollLeft === 0 ? '1' : '0';
     }
+};
+
+const gotoDetail = (person: MovieCredit) => {
+    router.push(`/person/${person.id}-${formatTitle(person.name)}`);
 };
 </script>
